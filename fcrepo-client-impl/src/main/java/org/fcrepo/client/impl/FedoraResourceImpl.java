@@ -188,7 +188,7 @@ public class FedoraResourceImpl implements FedoraResource {
             } else {
                 LOGGER.error("error updating resource {}: {} {}", uri, status.getStatusCode(),
                              status.getReasonPhrase());
-                throw new FedoraException("error retrieving resource " + uri + ": " + status.getStatusCode() + " " +
+                throw new FedoraException("error updating resource " + uri + ": " + status.getStatusCode() + " " +
                                           status.getReasonPhrase());
             }
 

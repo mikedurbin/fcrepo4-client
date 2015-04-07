@@ -23,6 +23,7 @@ import org.fcrepo.client.FedoraDatastream;
 import org.fcrepo.client.FedoraException;
 import org.fcrepo.client.FedoraObject;
 import org.fcrepo.client.FedoraRepository;
+import org.fcrepo.kernel.RdfLexicon;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -78,13 +79,13 @@ public class FedoraRepositoryImplIT {
     public void testBasicPropertiesCreation() throws IOException, FedoraException {
         final String objectPath = getRandomUniqueId();
         final FedoraObject object = repo.createObject(objectPath);
-        final String sparqlUpdate = "INSERT DATA { <> <http://purl.org/dc/elements/1.1/identifier> 'test' . } ";
+        final String sparqlUpdate = "INSERT DATA { <> <" + RdfLexicon.DC_NAMESPACE + "identifier> 'test' . } ";
         object.updateProperties(sparqlUpdate);
         final Iterator<Triple> tripleIt = object.getProperties();
         while (tripleIt.hasNext()) {
             final Triple t = tripleIt.next();
             if (t.objectMatches(NodeFactory.createLiteral("test"))
-                    && t.predicateMatches(NodeFactory.createURI("http://purl.org/dc/elements/1.1/identifier"))) {
+                    && t.predicateMatches(NodeFactory.createURI(RdfLexicon.DC_NAMESPACE + "identifier"))) {
                 return;
             }
         }
@@ -97,13 +98,13 @@ public class FedoraRepositoryImplIT {
         final FedoraObject object = repo.createObject(objectPath);
         final String datastreamPath = objectPath + "/" + getRandomUniqueId();
         final FedoraDatastream datastream = repo.createDatastream(datastreamPath, getStringTextContent("test"));
-        final String sparqlUpdate = "INSERT DATA { <> <http://purl.org/dc/elements/1.1/identifier> 'test' . } ";
+        final String sparqlUpdate = "INSERT DATA { <> <" + RdfLexicon.DC_NAMESPACE + "identifier> 'test' . } ";
         datastream.updateProperties(sparqlUpdate);
         final Iterator<Triple> tripleIt = datastream.getProperties();
         while (tripleIt.hasNext()) {
             final Triple t = tripleIt.next();
             if (t.objectMatches(NodeFactory.createLiteral("test"))
-                    && t.predicateMatches(NodeFactory.createURI("http://purl.org/dc/elements/1.1/identifier"))) {
+                    && t.predicateMatches(NodeFactory.createURI(RdfLexicon.DC_NAMESPACE + "identifier"))) {
                 return;
             }
         }

@@ -72,6 +72,11 @@ public interface FedoraRepository {
     public FedoraObject createObject( String path ) throws FedoraException;
 
     /**
+     * Create a new Object with a repository-supplied path.
+     **/
+    public FedoraObject createObject() throws FedoraException;
+
+    /**
      * Get an existing Datastream if it exists, otherwise create a new Datastream.
      * @param path The Datastream path.
     **/

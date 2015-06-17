@@ -15,31 +15,24 @@
  */
 package org.fcrepo.client.impl;
 
-import static org.apache.http.HttpStatus.SC_CREATED;
-import static org.apache.http.HttpStatus.SC_FORBIDDEN;
-import static org.fcrepo.kernel.RdfLexicon.CONTAINS;
-import static org.fcrepo.kernel.RdfLexicon.HAS_MIXIN_TYPE;
-import static org.slf4j.LoggerFactory.getLogger;
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.graph.NodeFactory;
+import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import org.fcrepo.client.FedoraException;
+import org.fcrepo.client.FedoraObject;
+import org.fcrepo.client.FedoraRepository;
+import org.fcrepo.client.FedoraResource;
+import org.fcrepo.client.utils.HttpHelper;
+import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.NodeFactory;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.HttpPost;
-import org.fcrepo.client.FedoraException;
-import org.fcrepo.client.FedoraObject;
-import org.fcrepo.client.FedoraRepository;
-import org.fcrepo.client.FedoraResource;
-import org.fcrepo.client.ForbiddenException;
-import org.fcrepo.client.utils.HttpHelper;
-import org.slf4j.Logger;
+import static org.fcrepo.kernel.RdfLexicon.CONTAINS;
+import static org.fcrepo.kernel.RdfLexicon.HAS_MIXIN_TYPE;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * A Fedora Object Impl.
@@ -92,29 +85,6 @@ public class FedoraObjectImpl extends FedoraResourceImpl implements FedoraObject
 
     @Override
     public FedoraObject createObject() throws FedoraException {
-        final HttpPost post = httpHelper.createPostMethod(getPath(), null);
-        try {
-            final HttpResponse response = httpHelper.execute(post);
-            final String uri = post.getURI().toString();
-            final StatusLine status = response.getStatusLine();
-            final int statusCode = status.getStatusCode();
-
-            if (statusCode == SC_CREATED) {
-                return repository.getObject(response.getFirstHeader("Location").getValue().substring(
-                        repository.getRepositoryUrl().length()));
-            } else if (statusCode == SC_FORBIDDEN) {
-                LOGGER.error("request to create resource {} is not authorized.", uri);
-                throw new ForbiddenException("request to create resource " + uri + " is not authorized.");
-            } else {
-                LOGGER.error("error creating resource {}: {} {}", uri, statusCode, status.getReasonPhrase());
-                throw new FedoraException("error retrieving resource " + uri + ": " + statusCode + " " +
-                        status.getReasonPhrase());
-            }
-        } catch (final Exception e) {
-            LOGGER.error("could not encode URI parameter", e);
-            throw new FedoraException(e);
-        } finally {
-            post.releaseConnection();
-        }
+        return repository.createResource(getPath());
     }
 }

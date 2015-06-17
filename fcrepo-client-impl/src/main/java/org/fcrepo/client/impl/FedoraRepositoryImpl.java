@@ -221,8 +221,8 @@ public class FedoraRepositoryImpl implements FedoraRepository {
     }
 
     @Override
-    public FedoraObject createObject() throws FedoraException {
-        final HttpPost post = httpHelper.createPostMethod("", null);
+    public FedoraObject createResource(final String containerPath) throws FedoraException {
+        final HttpPost post = httpHelper.createPostMethod(containerPath == null ? "" : containerPath, null);
         try {
             final HttpResponse response = httpHelper.execute(post);
             final String uri = post.getURI().toString();

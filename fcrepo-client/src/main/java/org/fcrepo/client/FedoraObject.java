@@ -33,6 +33,8 @@ public interface FedoraObject extends FedoraResource {
     /**
      * Create a new resource with a repository-supplied path contained within
      * the resource exposed by this FedoraObject instance.
+     * @return a FedoraObject representing the created resource.
+     * @throws FedoraException if an error occurs while making the requests against the repository.
      **/
     public FedoraObject createObject() throws FedoraException;
 }

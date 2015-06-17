@@ -236,7 +236,7 @@ public class FedoraRepositoryImpl implements FedoraRepository {
                 throw new ForbiddenException("request to create resource " + uri + " is not authorized.");
             } else {
                 LOGGER.error("error creating resource {}: {} {}", uri, statusCode, status.getReasonPhrase());
-                throw new FedoraException("error retrieving resource " + uri + ": " + statusCode + " " +
+                throw new FedoraException("error creating resource " + uri + ": " + statusCode + " " +
                         status.getReasonPhrase());
             }
         } catch (final Exception e) {

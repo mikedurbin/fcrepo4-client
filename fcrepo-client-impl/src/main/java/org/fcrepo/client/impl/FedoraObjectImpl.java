@@ -24,7 +24,6 @@ import org.fcrepo.client.FedoraObject;
 import org.fcrepo.client.FedoraRepository;
 import org.fcrepo.client.FedoraResource;
 import org.fcrepo.client.utils.HttpHelper;
-import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -32,7 +31,6 @@ import java.util.Set;
 
 import static org.fcrepo.kernel.RdfLexicon.CONTAINS;
 import static org.fcrepo.kernel.RdfLexicon.HAS_MIXIN_TYPE;
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * A Fedora Object Impl.
@@ -42,7 +40,6 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @since 2014-08-11
  */
 public class FedoraObjectImpl extends FedoraResourceImpl implements FedoraObject {
-    private static final Logger LOGGER = getLogger(FedoraObjectImpl.class);
     private final static Node binaryType = NodeFactory.createLiteral("fedora:binary");
 
     /**
